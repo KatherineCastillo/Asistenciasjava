@@ -1,0 +1,23 @@
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="/layouts/_mainLayout" xmlns:th="http://www.thymeleaf.org">
+<div layout:fragment="content">
+    <h1>Eliminar Asignación Estudiante-Grupo</h1>
+    <h3>¿Está seguro que desea eliminar el registro?</h3>
+    <div>
+        <hr/>
+        <dl class="row">
+            <dt class="col-sm-2">ID</dt>
+            <dd class="col-sm-10" th:text="${estudianteGrupo.id}"></dd>
+            <dt class="col-sm-2">Docente</dt>
+            <dd class="col-sm-10" th:text="${estudianteGrupo.estudiante.nombre} "></dd>
+            <dt class="col-sm-2">Grupo</dt>
+            <dd class="col-sm-10" th:text="${docenteGrupo.grupo.nombre}"></dd>
+        </dl>
+        <form th:action="@{/estudianteGrupos/delete}" method="post">
+            <input type="hidden" name="id" th:value="${estudianteGrupo.id}">
+            <input type="submit" value="Eliminar" class="btn btn-danger">
+            <a th:href="@{/estudianteGrupos}" class="btn btn-secondary">Regresar</a>
+        </form>
+    </div>
+</div>
+</html>
