@@ -70,15 +70,14 @@ public class EstudianteGrupoController {
             _estudianteGrupoService.CrearOeditar(estudianteGrupo);
             attributes.addFlashAttribute("msg", "Asignacion guardada correctamente");
 
-        } else {
-            attributes.addFlashAttribute("error","no se pudo guardar la asignacion");
         }
         return  "redirect:/estudianteGrupos";
     }
     @GetMapping("/details/{id}")
     public String details(@PathVariable("id")Integer id, Model model){
         EstudianteGrupo estudianteGrupo = _estudianteGrupoService.BuscarPorId(id).get();
-        model.addAttribute("estudianteGrupos", _estudianteServices.ObtenerTodos());
+        model.addAttribute("estudianteGrupo", estudianteGrupo);
+
         return "estudianteGrupo/details";
     }
     @GetMapping("/edit/{id}")
@@ -91,23 +90,23 @@ public class EstudianteGrupoController {
         return "estudianteGrupo/edit";
     }
     @PostMapping("/update")
-    public String update(@RequestParam Integer id,
-                         @RequestParam Integer estudianteId,
-                         @RequestParam Integer grupoId,
+    public String update(@ModelAttribute EstudianteGrupo estudianteGrupo, RedirectAttributes attributes){
+        Optional<Estudiante> estudianteOptional = _estudianteServices.BuscarPorId(estudianteGrupo.getEstudiante().getId());
+        Optional<Grupo> grupoOptional = _grupoServices.BuscarPorId(estudianteGrupo.getGrupo().getId());
 
-                         RedirectAttributes attributes){
-        Estudiante estudiante = _estudianteServices.BuscarPorId(estudianteId).get();
-        Grupo grupo = _grupoServices.BuscarPorId(grupoId).get();
+        if (estudianteOptional.isPresent() && grupoOptional.isPresent()) {
+            Estudiante estudiante = estudianteOptional.get();
+            Grupo grupo = grupoOptional.get();
 
-        if (estudiante !=null && grupo !=null){
-            EstudianteGrupo estudianteGrupo = new EstudianteGrupo();
-            estudianteGrupo.setId(id);
             estudianteGrupo.setEstudiante(estudiante);
             estudianteGrupo.setGrupo(grupo);
 
             _estudianteGrupoService.CrearOeditar(estudianteGrupo);
-            attributes.addFlashAttribute("msg", "Asignacion modificada correctamente");
+            attributes.addFlashAttribute("msg", "Asignación modificada correctamente");
+        } else {
+            attributes.addFlashAttribute("error", "No se pudo encontrar el estudiante o grupo.");
         }
+
         return "redirect:/estudianteGrupos";
     }
     @GetMapping("/remove/{id}")

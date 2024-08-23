@@ -12,11 +12,11 @@
     <h1>Detalles de la Asignación Estudiante-Grupo</h1>
     <dt class="col-sm-2">ID</dt>
     <dd class="col-sm-10" th:text="${estudianteGrupo.id}"></dd>
-    <dt class="col-sm-2">Docente</dt>
+    <dt class="col-sm-2">Estudiante</dt>
     <dd class="col-sm-10" th:text="${estudianteGrupo.estudiante.nombre} "></dd>
     <dt class="col-sm-2">Grupo</dt>
-    <dd class="col-sm-10" th:text="${docenteGrupo.grupo.nombre}"></dd>
-    <dt class="col-sm-2">Año</dt>
+    <dd class="col-sm-10" th:text="${estudianteGrupo.grupo.nombre}"></dd>
+
     <hr>
     <a th:href="@{/estudianteGrupos/edit/{id}(id=${estudianteGrupo.id})}" class="btn btn-info">Editar</a>
     <a th:href="@{/estudianteGrupos}" class="btn btn-secondary">Regresar</a>
